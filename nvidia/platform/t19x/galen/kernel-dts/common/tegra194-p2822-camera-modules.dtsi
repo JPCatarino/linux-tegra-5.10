@@ -14,8 +14,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "tegra194-p2822-0000-camera-e3377-a00.dtsi"
-#include "tegra194-p2822-0000-camera-e3326-a00.dtsi"
+/*#include "tegra194-p2822-0000-camera-e3377-a00.dtsi"				//removed for imx219 cameras on X22x boards(fd)
+#include "tegra194-p2822-0000-camera-e3326-a00.dtsi"				//TODO make compatible with X22x(fd)
 #include "tegra194-p2822-0000-camera-e3333-a00.dtsi"
 #include "tegra194-p2822-0000-camera-e3331-a00.dtsi"
 #include "tegra194-p2822-0000-camera-imx274-dual.dtsi"
@@ -23,7 +23,8 @@
 #include "tegra194-p2822-0000-camera-imx185-a00.dtsi"
 #include "tegra194-p2822-0000-camera-imx390-a00.dtsi"
 #include "tegra194-e2832-hdmi.dtsi"
-#include "tegra194-p2822-0000-camera-vivid.dtsi"
+#include "tegra194-p2822-0000-camera-vivid.dtsi"*/
+#include "tegra194-camera-galen-rbpcv2-imx219-auvidea.dtsi"
 
 #define CAM0_RST_L	TEGRA194_MAIN_GPIO(H, 3)
 #define CAM0_PWDN	TEGRA194_MAIN_GPIO(H, 6)
@@ -58,8 +59,8 @@
 	};
 
 	/* all cameras are disabled by default */
-	capture_vi_base: tegra-capture-vi {
-		ports {
+	/*capture_vi_base: tegra-capture-vi {						//removed for imx219 cameras on X22x boards(fd)
+		ports {									//TODO make compatible with X22x(fd)
 			vi_port0: port@0 {
 				status = "disabled";
 				vi_in0: endpoint {
@@ -390,5 +391,5 @@
 				};
 			};
 		};
-	};
+	};*/
 };

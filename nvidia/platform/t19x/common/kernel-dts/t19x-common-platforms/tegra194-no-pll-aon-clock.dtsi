@@ -21,7 +21,7 @@
                         <&bpmp_clks TEGRA194_CLK_OSC>;
         };
 
-        mttcan@c310000 {
+        /*mttcan@c310000 {								//removed for CAN on X220 and X221(fd)
 		pll_source = "osc";
                 clocks = <&bpmp_clks TEGRA194_CLK_CAN1_CORE>,
                         <&bpmp_clks TEGRA194_CLK_CAN1_HOST>,
@@ -37,5 +37,5 @@
                         <&bpmp_clks TEGRA194_CLK_CAN2>,
                         <&bpmp_clks TEGRA194_CLK_OSC>;
 		 clock-names = "can_core", "can_host","can", "osc";
-        };
+        };*/
 };

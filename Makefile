@@ -6,10 +6,20 @@ EXTRAVERSION =
 NAME = Dare mighty things
 
 ifeq ($(KERNEL_OVERLAYS),)
-KERNEL_OVERLAYS :=
-KERNEL_OVERLAYS += $(dir $(lastword $(MAKEFILE_LIST)))/nvidia
-KERNEL_OVERLAYS += $(dir $(lastword $(MAKEFILE_LIST)))/nvidia/nvgpu
-KERNEL_OVERLAYS += $(dir $(lastword $(MAKEFILE_LIST)))/nvidia/drivers/video/tegra/nvmap
+ifeq ($(_nv_build_configuration_is_external),0)
+# internal build kernel overlays txt
+CHOSEN_KERNEL_OVERLAYS_TXT := kernel-int-overlays.txt
+else
+ifeq ($(_nv_build_configuration_is_external),)
+# menuconfig make selects internal profile
+# NOTE: external profile menuconfig support may be needed later
+CHOSEN_KERNEL_OVERLAYS_TXT := kernel-int-overlays.txt
+else
+# external build kernel overlays txt
+CHOSEN_KERNEL_OVERLAYS_TXT := kernel-overlays.txt
+endif
+endif
+KERNEL_OVERLAYS := $(addprefix $(CURDIR)/../,$(shell cat $(CHOSEN_KERNEL_OVERLAYS_TXT)))
 else
 override KERNEL_OVERLAYS := $(subst :, ,$(KERNEL_OVERLAYS))
 endif
@@ -809,10 +819,6 @@ endif
 KBUILD_CFLAGS += $(call cc-disable-warning, unused-but-set-variable)
 
 KBUILD_CFLAGS += $(call cc-disable-warning, unused-const-variable)
-
-# These result in bogus false positives
-KBUILD_CFLAGS += $(call cc-disable-warning, dangling-pointer)
-
 ifdef CONFIG_FRAME_POINTER
 KBUILD_CFLAGS	+= -fno-omit-frame-pointer -fno-optimize-sibling-calls
 else

@@ -56,7 +56,7 @@
 };
 
 &head2 {
-	status = "okay";
+	status = "disabled";								//only set to "okay" if X200 or X220 wiht second HDMI is used // if X221 is use set to "disabled"(fd)
 	nvidia,fb-bpp = <32>;
 	nvidia,fbmem-size = <265420800>; /* 8K (7680*4320) 32bpp double buffered */
 	nvidia,fb-flags = <TEGRA_FB_FLIP_ON_PROBE>;
@@ -66,8 +66,8 @@
 	nvidia,dc-flags = <TEGRA_DC_FLAG_ENABLED>;
 	vdd-dp-pwr-supply = <&p2888_spmic_sd0>;
 	avdd-dp-pll-supply = <&p2888_spmic_sd1>;
-	vdd-edp-sec-mode-supply = <&battery_reg>;
-	vdd-dp-pad-supply = <&battery_reg>;
+	//vdd-edp-sec-mode-supply = <&battery_reg>;					//remove for auvidea X2xx boards(fd)
+	//vdd-dp-pad-supply = <&battery_reg>;
 	vdd_hdmi_5v0-supply = <&p2822_vdd_hdmi_5v0>;
 };
 
@@ -82,9 +82,21 @@
 	nvidia,is_ext_dp_panel = <1>;
 };
 
-&sor1 {
+/*&sor1 {
 	status = "okay";
 	nvidia,active-panel = <&sor1_dp_display>;
+};*/
+
+&sor1 {
+	status = "disabled";								//only set to "okay" if X200 or X220 wiht second HDMI is used // if X221 is use set to "disabled"(fd)
+	nvidia,active-panel = <&sor1_hdmi_display>;					//change display port to hdmi port for second HDMI on X220(fd)
+};
+
+&sor1_hdmi_display {									//added for second HDMI port to work on X220(fd)
+	status = "okay";
+	disp-default-out {
+		nvidia,out-flags = <TEGRA_DC_OUT_HOTPLUG_LOW>;
+	};
 };
 
 &sor1_dp_display {

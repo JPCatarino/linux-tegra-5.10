@@ -121,6 +121,28 @@
 		"",     "",     "",     "SPI1_CLK",     "SPI1_MISO",     "SPI1_MOSI",     "SPI1_CS0_N",     "SPI1_CS1_N",     "",     "";
 	};
 
+
+
+
+	pcie@14160000 {								//added for 5th PCIe slot to work on auvidea X200 or 2. Ethernet Port on X221(fd)
+		status = "okay";
+
+		vddio-pex-ctl-supply = <&p2888_spmic_sd3>;
+		nvidia,disable-aspm-states = <0xf>;
+		nvidia,enable-power-down;
+
+#if TEGRA_PCIE_VERSION >= DT_VERSION_2
+		phys = <&p2u_hsio_8>,
+		       <&p2u_hsio_9>;
+		phy-names = "p2u-0", "p2u-1";
+#else
+		phys = <&p2u_8>,
+		       <&p2u_9>;
+		phy-names = "pcie-p2u-0", "pcie-p2u-1";
+#endif
+	};
+
+
 	pcie@14180000 {
 		status = "okay";
 

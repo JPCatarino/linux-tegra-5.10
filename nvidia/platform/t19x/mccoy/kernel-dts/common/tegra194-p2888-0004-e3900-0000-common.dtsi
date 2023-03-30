@@ -281,22 +281,24 @@
 
 	mttcan@c310000 {
 		status = "okay";
-		pll_source = "pllc";
+		pll_source = "pllaon";						//change source from pllc to pllaon(fd)
 		clocks = <&bpmp_clks TEGRA194_CLK_CAN1_CORE>,
 			<&bpmp_clks TEGRA194_CLK_CAN1_HOST>,
 			<&bpmp_clks TEGRA194_CLK_CAN1>,
-			<&bpmp_clks TEGRA194_CLK_PLLC>;
-		clock-names = "can_core", "can_host","can", "pllc";
+			//<&bpmp_clks TEGRA194_CLK_PLLC>,			//replace with pllaon for CAN working properly(fd)
+			<&bpmp_clks TEGRA194_CLK_PLLAON>;
+		clock-names = "can_core", "can_host","can", "pllaon";		//change pllc to pllaon(fd)
 	};
 
 	mttcan@c320000 {
-		status = "okay";
-		pll_source = "pllc";
+		status = "okay";	
+		pll_source = "pllaon";						//change source from pllc to pllaon(fd)
 		clocks = <&bpmp_clks TEGRA194_CLK_CAN2_CORE>,
 			<&bpmp_clks TEGRA194_CLK_CAN2_HOST>,
 			<&bpmp_clks TEGRA194_CLK_CAN2>,
-			<&bpmp_clks TEGRA194_CLK_PLLC>;
-		clock-names = "can_core", "can_host","can", "pllc";
+			//<&bpmp_clks TEGRA194_CLK_PLLC>,			//replace with pllaon for CAN working properly(fd)
+			<&bpmp_clks TEGRA194_CLK_PLLAON>;
+		clock-names = "can_core", "can_host","can", "pllaon";			//change pllc to pllaon(fd)
 	};
 
 	serial@3110000 {

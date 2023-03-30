@@ -331,8 +331,8 @@ endef
 ifneq ($(NV_BUILD_KERNEL_DTS_ROOT),)
 tegra-dtstree = $(NV_BUILD_KERNEL_DTS_ROOT)
 else
-tegra-dtstree = $(srctree)/nvidia
+tegra-dtstree = $(srctree)/../../hardware/nvidia
 endif
 
-tegra-root-dtstree = $(subst ^$(realpath $(tegra-dtstree)/..)/,,^$(realpath $(srctree)/arch/arm64/boot/dts))
+tegra-root-dtstree = $(subst ^$(realpath $(tegra-dtstree)/../..)/,,^$(realpath $(srctree)/arch/arm64/boot/dts))
 tegra-rel-dtstree = $(subst $(space),/,$(patsubst %,..,$(subst /, ,$(tegra-root-dtstree))))

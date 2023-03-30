@@ -136,8 +136,8 @@
 			gyroscope_delay_us_min = <1250>;
 			status = "disabled";
 		};
-		ucsi_ccg: ucsi_ccg@8 {
-			status = "okay";
+		/*ucsi_ccg: ucsi_ccg@8 {						//remove USB C for USB on X22x boards to work properly
+			status = "disabled";						//disable for usb on X22x boards(fd)
 #if TEGRA_XUSB_DT_VERSION == DT_VERSION_2
 			typec-extcon {
 				typec_port0: port-0 {
@@ -169,7 +169,7 @@
 				};
 			};
 #endif
-		};
+		};*/
 	};
 
 	xusb_padctl: xusb_padctl@3520000 {
@@ -217,14 +217,14 @@
 		ports {
 			usb2-0 {
 				mode = "otg";
-				usb-role-switch;
+				//usb-role-switch;					//removed for usb on X22x boards(fd)
 				status = "okay";
 #if TEGRA_XUSB_DT_VERSION >= DT_VERSION_3
-				port {
+				/*port {						//removed for usb on X22x boards(fd)
 					usb_role_switch0: endpoint {
 						remote-endpoint = <&ucsi_ccg_p0>;
 					};
-				};
+				};*/
 #endif
 			};
 			usb2-1 {
@@ -244,7 +244,7 @@
 				status = "okay";
 			};
 			usb3-2 {
-				nvidia,usb2-companion = <0>;
+				nvidia,usb2-companion = <2>;				//changed to 2 from 0 for usb on X22x boards(fd)
 				status = "okay";
 			};
 			usb3-3 {
@@ -257,9 +257,9 @@
 
 	tegra_xudc: xudc@3550000 {
 #if TEGRA_XUSB_DT_VERSION == DT_VERSION_2
-		extcon-cables = <&typec_port0 0>;
-		extcon-cable-names = "vbus";
-		#extcon-cells = <1>;
+		//extcon-cables = <&typec_port0 0>;					//removed for usb on X22x boards(fd)
+		//extcon-cable-names = "vbus";
+		//#extcon-cells = <1>;
 #endif
 		phys = <&{/xusb_padctl@3520000/pads/usb2/lanes/usb2-0}>,
 			<&{/xusb_padctl@3520000/pads/usb3/lanes/usb3-2}>;
@@ -275,9 +275,9 @@
 
 	tegra_xhci: xhci@3610000 {
 #if TEGRA_XUSB_DT_VERSION == DT_VERSION_2
-		extcon-cables = <&typec_port0 1>;
-		extcon-cable-names = "id";
-		#extcon-cells = <1>;
+		//extcon-cables = <&typec_port0 1>;					//removed for usb on X22x boards(fd)
+		//extcon-cable-names = "id";
+		//#extcon-cells = <1>;
 #endif
 		phys = <&{/xusb_padctl@3520000/pads/usb2/lanes/usb2-0}>,
 			<&{/xusb_padctl@3520000/pads/usb2/lanes/usb2-1}>,
@@ -330,10 +330,24 @@
 
 	mttcan@c310000 {
 		status = "okay";
+		pll_source = "pllaon";						//change source from pllc to pllaon(fd)
+		clocks = <&bpmp_clks TEGRA194_CLK_CAN1_CORE>,
+			<&bpmp_clks TEGRA194_CLK_CAN1_HOST>,
+			<&bpmp_clks TEGRA194_CLK_CAN1>,
+			//<&bpmp_clks TEGRA194_CLK_PLLC>,			//replace with pllaon for CAN working properly(fd)
+			<&bpmp_clks TEGRA194_CLK_PLLAON>;
+		clock-names = "can_core", "can_host","can", "pllaon";		//change pllc to pllaon(fd)
 	};
 
 	mttcan@c320000 {
-		status = "okay";
+		status = "okay";	
+		pll_source = "pllaon";						//change source from pllc to pllaon(fd)
+		clocks = <&bpmp_clks TEGRA194_CLK_CAN2_CORE>,
+			<&bpmp_clks TEGRA194_CLK_CAN2_HOST>,
+			<&bpmp_clks TEGRA194_CLK_CAN2>,
+			//<&bpmp_clks TEGRA194_CLK_PLLC>,			//replace with pllaon for CAN working properly(fd)
+			<&bpmp_clks TEGRA194_CLK_PLLAON>;
+		clock-names = "can_core", "can_host","can", "pllaon";			//change pllc to pllaon(fd)
 	};
 
 	serial@3110000 {
@@ -422,7 +436,7 @@
 		compatible = "nvidia,clocks-config";
 		status = "okay";
 		disable {
-			clocks = <&aon_clks TEGRA194_CLK_PLLAON>,
+			clocks = /*<&aon_clks TEGRA194_CLK_PLLAON>,*/		//removed for CAN on X220(fd)
 				<&bpmp_clks TEGRA194_CLK_CAN1>,
 				<&bpmp_clks TEGRA194_CLK_CAN2>;
 		};
@@ -431,30 +445,30 @@
 
 #if TEGRA_XUSB_DT_VERSION == DT_VERSION_2
 &head0 {
-	extcon-cables = <&typec_port0 2 &typec_port1 2>;
-	extcon-cable-names = "typec0", "typec1";
-	#extcon-cells = <1>;
+//	extcon-cables = <&typec_port0 2 &typec_port1 2>;			//removed for usb on X22x boards(fd)
+//	extcon-cable-names = "typec0", "typec1";
+//	#extcon-cells = <1>;
 };
 
 &head1 {
-	extcon-cables = <&typec_port0 2 &typec_port1 2>;
-	extcon-cable-names = "typec0", "typec1";
-	#extcon-cells = <1>;
+//	extcon-cables = <&typec_port0 2 &typec_port1 2>;			//removed for usb on X22x boards(fd)
+//	extcon-cable-names = "typec0", "typec1";
+//	#extcon-cells = <1>;
 };
 
 &head2 {
-	extcon-cables = <&typec_port0 2 &typec_port1 2>;
-	extcon-cable-names = "typec0", "typec1";
-	#extcon-cells = <1>;
+//	extcon-cables = <&typec_port0 2 &typec_port1 2>;			//removed for usb on X22x boards(fd)
+//	extcon-cable-names = "typec0", "typec1";
+//	#extcon-cells = <1>;
 };
 
-&sor0 {
+/*&sor0 {									//removed for usb on X22x boards(fd)
 	nvidia,typec-port = /bits/ 8 <0>;
-};
+};*/
 
-&sor1 {
+/*&sor1 {									//removed for usb on X22x boards(fd)
 	nvidia,typec-port = /bits/ 8 <1>;
-};
+};*/
 #endif
 
 #if LINUX_VERSION >= 414
